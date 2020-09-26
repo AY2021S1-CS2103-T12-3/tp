@@ -274,9 +274,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to add a specific person to the list.
+1. User requests to add a specific task to the list.
 
-2. PlaNus adds the person.
+2. PlaNus adds the task.
 
    Use case ends.
 
@@ -288,19 +288,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case resumes at step 1.
 
-
+    
 
 **Use case 02: Delete a task**
 
 **MSS**
 
-1. User requests to list persons.
+1. User requests to list tasks.
 
-2. PlaNus shows a list of persons.
+2. PlaNus shows a list of tasks.
 
-3. User requests to delete a specific person in the list.
+3. User requests to delete a specific task in the list.
 
-4. PlaNus deletes the person.
+4. PlaNus deletes the task.
 
    Use case ends.
 
@@ -322,13 +322,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list persons
+1. User requests to list tasks.
 
-2. PlaNus shows a list of persons
+2. PlaNus shows a list of tasks.
 
    Use case ends.
 
-   
+**Extensions**
+
+- 2a. The list is empty.
+
+  Use case ends.
+
+
 
 **Use case 04: Request help**
 
@@ -363,6 +369,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - 3a1. PlaNus shows an error message.
 
     Use case resumes at step 3.
+
+    
+
+**Use case 06: Exit application**
+
+**MSS**
+
+1. User requests to exit application.
+
+2. PlaNus exits application.
+
+   Use case ends.
+
+   
 
 *{More to be added}*
 
