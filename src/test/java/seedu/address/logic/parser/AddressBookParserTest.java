@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 
 import java.util.Arrays;
 import java.util.List;
@@ -98,7 +98,7 @@ public class AddressBookParserTest {
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + remark);
         assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, remark), command);
     }
-    
+
     @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()

@@ -19,7 +19,6 @@ import seedu.address.model.tag.Tag;
 public class SampleDataUtil {
 
     public static final Remark EMPTY_REMARK = new Remark("");
-    
     public static Person[] getSamplePersons() {
         return new Person[] {
             new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
@@ -28,7 +27,7 @@ public class SampleDataUtil {
                     EMPTY_REMARK, getTagSet("colleagues", "friends")),
             new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
                     EMPTY_REMARK, getTagSet("neighbours")),
-            new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"), 
+            new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
                     EMPTY_REMARK, getTagSet("family")),
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
                     EMPTY_REMARK, getTagSet("classmates")),

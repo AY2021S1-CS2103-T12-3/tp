@@ -60,7 +60,6 @@ public class EditPersonDescriptorBuilder {
         descriptor.setEmail(new Email(email));
         return this;
     }
-    
 
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}

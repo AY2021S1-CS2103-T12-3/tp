@@ -39,19 +39,15 @@ public class Person {
     public Name getName() {
         return name;
     }
-
     public Phone getPhone() {
         return phone;
     }
-
     public Email getEmail() {
         return email;
     }
-    
     public Remark getRemark() {
         return remark;
     }
-    
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.

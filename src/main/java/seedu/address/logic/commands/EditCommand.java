@@ -21,8 +21,8 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.Remark;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -170,7 +170,6 @@ public class EditCommand extends Command {
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
         }
-        
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
