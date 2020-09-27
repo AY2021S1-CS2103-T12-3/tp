@@ -45,7 +45,6 @@ public class Person {
     public Email getEmail() {
         return email;
     }
-    
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
