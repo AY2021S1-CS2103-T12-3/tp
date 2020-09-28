@@ -15,7 +15,7 @@ Given below are my contributions to the project.
   * Update the README and website markdowns to be consistent with our project
   * Managed releases `v1.1 - v1.2` (2 releases) on GitHub
 
-* **Code contributed**: [RepoSense link](https://nus-cs2103-ay2021s1.github.io/tp-dashboard/#breakdown=true&search=bobbyzhouzijian&sort=groupTitle&sortWithin=title&since=2020-08-14&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other)
+* **Code contributed**: [RepoSense link]()
 
 * **Documentation**:
   * User Guide:

@@ -5,16 +5,16 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.task.Task;
-import seedu.address.model.task.UniqueTaskList;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * Wraps all data at the address-book level
- * Duplicates are not allowed (by .isSameTask comparison)
+ * Duplicates are not allowed (by .isSamePerson comparison)
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
-    private final UniqueTaskList tasks;
+    private final UniquePersonList persons;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -24,13 +24,13 @@ public class AddressBook implements ReadOnlyAddressBook {
      *   among constructors.
      */
     {
-        tasks = new UniqueTaskList();
+        persons = new UniquePersonList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Tasks in the {@code toBeCopied}
+     * Creates an AddressBook using the Persons in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -40,11 +40,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the task list with {@code tasks}.
-     * {@code tasks} must not contain duplicate tasks.
+     * Replaces the contents of the person list with {@code persons}.
+     * {@code persons} must not contain duplicate persons.
      */
-    public void setTasks(List<Task> tasks) {
-        this.tasks.setTasks(tasks);
+    public void setPersons(List<Person> persons) {
+        this.persons.setPersons(persons);
     }
 
     /**
@@ -53,68 +53,68 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
-        setTasks(newData.getTaskList());
+        setPersons(newData.getPersonList());
     }
 
-    //// task-level operations
+    //// person-level operations
 
     /**
-     * Returns true if a task with the same identity as {@code task} exists in the address book.
+     * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
-    public boolean hasTask(Task task) {
-        requireNonNull(task);
-        return tasks.contains(task);
+    public boolean hasPerson(Person person) {
+        requireNonNull(person);
+        return persons.contains(person);
     }
 
     /**
-     * Adds a task to the address book.
-     * The task must not already exist in the address book.
+     * Adds a person to the address book.
+     * The person must not already exist in the address book.
      */
-    public void addTask(Task p) {
-        tasks.add(p);
+    public void addPerson(Person p) {
+        persons.add(p);
     }
 
     /**
-     * Replaces the given task {@code target} in the list with {@code editedTask}.
+     * Replaces the given person {@code target} in the list with {@code editedPerson}.
      * {@code target} must exist in the address book.
-     * The task identity of {@code editedTask} must not be the same as another existing task in the address book.
+     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
      */
-    public void setTask(Task target, Task editedTask) {
-        requireNonNull(editedTask);
+    public void setPerson(Person target, Person editedPerson) {
+        requireNonNull(editedPerson);
 
-        tasks.setTask(target, editedTask);
+        persons.setPerson(target, editedPerson);
     }
 
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
-    public void removeTask(Task key) {
-        tasks.remove(key);
+    public void removePerson(Person key) {
+        persons.remove(key);
     }
 
     //// util methods
 
     @Override
     public String toString() {
-        return tasks.asUnmodifiableObservableList().size() + " tasks";
+        return persons.asUnmodifiableObservableList().size() + " persons";
         // TODO: refine later
     }
 
     @Override
-    public ObservableList<Task> getTaskList() {
-        return tasks.asUnmodifiableObservableList();
+    public ObservableList<Person> getPersonList() {
+        return persons.asUnmodifiableObservableList();
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
-                && tasks.equals(((AddressBook) other).tasks));
+                && persons.equals(((AddressBook) other).persons));
     }
 
     @Override
     public int hashCode() {
-        return tasks.hashCode();
+        return persons.hashCode();
     }
 }
