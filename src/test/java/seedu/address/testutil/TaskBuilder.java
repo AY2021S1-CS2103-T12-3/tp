@@ -6,6 +6,8 @@ import java.util.Set;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.DateTime;
 import seedu.address.model.task.Description;
+import seedu.address.model.task.State;
+import seedu.address.model.task.Status;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Title;
 import seedu.address.model.task.Type;
@@ -20,12 +22,14 @@ public class TaskBuilder {
     public static final String DEFAULT_DATE_TIME = "01-01-2020 12:00";
     public static final String DEFAULT_DESCRIPTION = "6 midterms next week.";
     public static final String DEFAULT_TYPE = "todo";
+    public static final State DEFAULT_STATUS = State.INCOMPLETE;
 
     private Title title;
     private DateTime dateTime;
     private Description description;
     private Type type;
     private Set<Tag> tags;
+    private Status status;
 
     /**
      * Creates a {@code TaskBuilder} with the default details.
@@ -36,6 +40,7 @@ public class TaskBuilder {
         description = new Description(DEFAULT_DESCRIPTION);
         type = new Type(DEFAULT_TYPE);
         tags = new HashSet<>();
+        status = new Status(DEFAULT_STATUS);
     }
 
     /**
@@ -104,6 +109,14 @@ public class TaskBuilder {
      */
     public TaskBuilder withDefaultDescription() {
         this.description = Description.defaultDescription();
+        return this;
+    }
+
+    /**
+     * Sets the {@code Status} of the {@code Task}  that we are building.
+     */
+    public TaskBuilder withStatus(State state) {
+        this.status = new Status(state);
         return this;
     }
 

@@ -27,7 +27,7 @@ public class Status {
      * Constructs a default {@code Status} that have a state of pending.
      */
     private Status() {
-        value = State.PENDING;
+        value = State.INCOMPLETE;
     }
 
     /**

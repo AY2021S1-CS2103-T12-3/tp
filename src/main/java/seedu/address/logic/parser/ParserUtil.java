@@ -36,6 +36,23 @@ public class ParserUtil {
     }
 
     /**
+     * Parses {@code oneBasedIndexes} into an {@code Index array} and returns it. Leading and trailing whitespaces will
+     * be trimmed.
+     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     */
+    public static Index[] parseVarargsIndex(String oneBasedIndexes) throws ParseException {
+        String[] splited = oneBasedIndexes.trim().split(" ");
+        Index[] indexes = new Index[splited.length];
+        for (int i = 0; i < splited.length; i++) {
+            if (!StringUtil.isNonZeroUnsignedInteger(splited[i])) {
+                throw new ParseException(MESSAGE_INVALID_INDEX);
+            }
+            indexes[i] = Index.fromOneBased(Integer.parseInt(splited[i]));
+        }
+        return indexes;
+    }
+
+    /**
      * Parses a {@code String title} into a {@code Title}.
      * Leading and trailing whitespaces will be trimmed.
      *

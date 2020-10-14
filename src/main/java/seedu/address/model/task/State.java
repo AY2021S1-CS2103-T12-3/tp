@@ -1,7 +1,7 @@
 package seedu.address.model.task;
 
 public enum State {
-    DONE("done"), PENDING("pending");
+    COMPLETE("complete"), INCOMPLETE("incomplete");
 
     private String state;
 

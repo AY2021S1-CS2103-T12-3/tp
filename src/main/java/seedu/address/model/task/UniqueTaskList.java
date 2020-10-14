@@ -98,6 +98,22 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     /**
+     * Replaces the task in the list with {@code tasks} done version.
+     * {@code tasks} must not contain duplicate tasks.
+     * each task in tasks must exist in the list.
+     */
+    public void markAsDone(Task[] tasks) {
+        requireNonNull(tasks);
+        for (int i = 0; i < tasks.length; i++) {
+            int index = internalList.indexOf(tasks[i]);
+            if (index == -1) {
+                throw new TaskNotFoundException();
+            }
+            internalList.set(index, tasks[i].markAsDone());
+        }
+    }
+
+    /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<Task> asUnmodifiableObservableList() {

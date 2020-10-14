@@ -86,6 +86,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Mark the given tasks {@code targets} in the list as done.
+     * task in targets must exist in the address book.
+     */
+    public void markAsDone(Task[] targets) {
+        requireNonNull(targets);
+        tasks.markAsDone(targets);
+    }
+
+    /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */

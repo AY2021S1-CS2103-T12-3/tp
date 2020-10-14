@@ -95,6 +95,10 @@ public class Task {
                 || otherTask.getDescription().equals(getDescription()));
     }
 
+    public Task markAsDone() {
+        return new Task(title, dateTime, description, type, tags, new Status(State.COMPLETE));
+    }
+
     /**
      * Returns true if both tasks have the same identity and data fields.
      * This defines a stronger notion of equality between two tasks.

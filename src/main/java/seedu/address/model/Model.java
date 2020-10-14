@@ -64,6 +64,12 @@ public interface Model {
     void deleteTask(Task target);
 
     /**
+     * Mark the given array of tasks to be done.
+     * The tasks must exist in the address book.
+     */
+    void markAsDone(Task[] targets);
+
+    /**
      * Adds the given task.
      * {@code task} must not already exist in the address book.
      */
