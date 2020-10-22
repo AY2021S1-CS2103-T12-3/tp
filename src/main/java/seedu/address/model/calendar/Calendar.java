@@ -5,9 +5,12 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import seedu.address.model.task.DateTime;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
@@ -100,6 +103,14 @@ public class Calendar implements Iterable<Task> {
             calendarList.set(index, tasks[i].markAsDone());
         }
     }
+
+    public FilteredList<Task> filter(DateTime startDate, DateTime endDate) {
+        Predicate<Task> betweenDate = x -> (x.getDateTime().value.isAfter(startDate.value) ||
+                x.getDateTime().value.isEqual(startDate.value)) &&
+                (x.getDateTime().value.isBefore(endDate.value));
+        return calendarList.filtered(betweenDate);
+    }
+
 
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.

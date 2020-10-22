@@ -96,6 +96,7 @@ public class Planus implements ReadOnlyPlanus {
     public void markAsDone(Task[] targets) {
         requireNonNull(targets);
         tasks.markAsDone(targets);
+        calendarTasks.markAsOver(targets);
     }
 
     /**
