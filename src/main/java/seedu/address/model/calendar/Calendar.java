@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
@@ -104,10 +103,16 @@ public class Calendar implements Iterable<Task> {
         }
     }
 
+    /**
+     * Filters the tasks that have a start date that falls between the startDate and endDate
+     * @param startDate start date
+     * @param endDate end date
+     * @return filtered list of tasks that have start date between the two parameters
+     */
     public FilteredList<Task> filter(DateTime startDate, DateTime endDate) {
-        Predicate<Task> betweenDate = x -> (x.getDateTime().value.isAfter(startDate.value) ||
-                x.getDateTime().value.isEqual(startDate.value)) &&
-                (x.getDateTime().value.isBefore(endDate.value));
+        Predicate<Task> betweenDate = x -> (x.getDateTime().value.isAfter(startDate.value)
+                || x.getDateTime().value.isEqual(startDate.value))
+                && (x.getDateTime().value.isBefore(endDate.value));
         return calendarList.filtered(betweenDate);
     }
 
@@ -134,20 +139,6 @@ public class Calendar implements Iterable<Task> {
     @Override
     public int hashCode() {
         return calendarList.hashCode();
-    }
-
-    /**
-     * Returns true if {@code tasks} contains only unique tasks.
-     */
-    private boolean tasksAreUnique(List<Task> tasks) {
-        for (int i = 0; i < tasks.size() - 1; i++) {
-            for (int j = i + 1; j < tasks.size(); j++) {
-                if (tasks.get(i).isSameTask(tasks.get(j))) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
 }
