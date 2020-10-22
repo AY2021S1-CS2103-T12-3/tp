@@ -1,20 +1,17 @@
 package seedu.address.model.calendar;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Iterator;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 public class Calendar implements Iterable<Task> {
 

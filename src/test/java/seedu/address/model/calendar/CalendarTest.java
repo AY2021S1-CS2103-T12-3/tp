@@ -1,6 +1,8 @@
 package seedu.address.model.calendar;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TYPE_BOB;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -8,6 +10,7 @@ import static seedu.address.testutil.TypicalTasks.ALICE;
 import static seedu.address.testutil.TypicalTasks.BOB;
 
 import org.junit.jupiter.api.Test;
+
 import seedu.address.model.task.Task;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
