@@ -91,7 +91,6 @@ Format: `lesson title:TITLE [desc:DESCRIPTION] day:DAY from:TIME to:TIME start:D
  date specified in `end:DATE`, on the day specified in `day:DAY` from the time specified in `from:TIME` to the time
  specified in `to:TIME`.
 * The format of day must be as follows (case-insensitive):
-  * Mon - Sun
   * Monday - Sunday
 
 Examples:

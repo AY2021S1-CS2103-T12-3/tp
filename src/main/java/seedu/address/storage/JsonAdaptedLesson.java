@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.logging.Logger;
@@ -12,8 +11,10 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.lesson.Date;
+import seedu.address.model.lesson.Day;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.Time;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.DateTime;
 import seedu.address.model.task.Description;
 import seedu.address.model.task.Title;
@@ -28,6 +29,7 @@ class JsonAdaptedLesson {
     private static final Logger logger = LogsCenter.getLogger(JsonAdaptedLesson.class);
 
     private final String title;
+    private final String tag;
     private final String description;
     private final String dayOfWeek;
     private final String startTime;
@@ -39,11 +41,13 @@ class JsonAdaptedLesson {
      * Constructs a {@code JsonAdaptedLesson} with the given lesson details.
      */
     @JsonCreator
-    public JsonAdaptedLesson(@JsonProperty("title") String title, @JsonProperty("description") String description,
-                         @JsonProperty("dayOfWeek") String dayOfWeek, @JsonProperty("startTime") String startTime,
+    public JsonAdaptedLesson(@JsonProperty("title") String title, @JsonProperty("tag") String tag,
+                             @JsonProperty("description") String description,
+                             @JsonProperty("dayOfWeek") String dayOfWeek, @JsonProperty("startTime") String startTime,
                        @JsonProperty("endTime") String endTime, @JsonProperty("startDate") String startDate,
                              @JsonProperty("endDate") String endDate) {
         this.title = title;
+        this.tag = tag;
         this.description = description;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
@@ -57,13 +61,14 @@ class JsonAdaptedLesson {
      */
     public JsonAdaptedLesson(Lesson source) {
         title = source.getTitle().title;
+        tag = source.getTag().tagName;
         description = source.getDescription().value;
-        dayOfWeek = source.getDayOfWeek().toString();
+        dayOfWeek = source.getDay().toString();
         startTime = source.getStartTime().format(Time.FORMATTER);
         endTime = source.getEndTime().format(Time.FORMATTER);
         startDate = source.getStartDate().format(Date.FORMATTER);
         endDate = source.getEndDate().format(Date.FORMATTER);
-        logger.info("Planus lesson with title: '" + title + "' successfully converted to adapted lesson object");
+        logger.info("PlaNus lesson with title: '" + title + "' successfully converted to adapted lesson object");
     }
 
     /**
@@ -80,7 +85,11 @@ class JsonAdaptedLesson {
             throw new IllegalValueException(Title.MESSAGE_CONSTRAINTS);
         }
         final Title modelTitle = new Title(title);
-
+        if (tag == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Tag.class.getSimpleName()));
+        }
+        final Tag modelTag = new Tag(tag);
         // tentatively description field is not allowed to be empty
         if (description == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -103,7 +112,7 @@ class JsonAdaptedLesson {
                     DateTime.class.getSimpleName()));
         }
 
-        final DayOfWeek modelDayOfWeek = ParserUtil.parseDay(dayOfWeek);
+        final Day modelDay = ParserUtil.parseDay(dayOfWeek);
 
         if (startTime == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -133,7 +142,7 @@ class JsonAdaptedLesson {
 
         final LocalDate modelEndDate = LocalDate.parse(endDate, Date.FORMATTER);
 
-        return new Lesson(modelTitle, modelDescription, modelDayOfWeek,
+        return new Lesson(modelTitle, modelTag, modelDescription, modelDay,
                 modelStartTime, modelEndTime, modelStartDate, modelEndDate);
     }
 

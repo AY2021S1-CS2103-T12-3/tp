@@ -17,8 +17,6 @@ public class DateTime {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
     public static final String MESSAGE_CONSTRAINTS =
             "DateTime should be in the format of dd-MM-yyyy HH:mm.";
-    public static final String DAY_MESSAGE_CONSTRAINTS =
-            "Day should be in the format of MON, TUE, ..., SUN or MONDAY, TUESDAY, ..., SUNDAY";
     public static final String SEARCH_CONSTRAINTS =
             "Search phrase for date should be in the format of dd-MM-yyyy or HH:mm or dd-MM-yyyy HH:mm.";
     public static final String VALIDATION_REGEX =

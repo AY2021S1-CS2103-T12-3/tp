@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class LessonCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a lesson to PlaNus.\n"
             + "Parameters: "
             + PREFIX_TITLE + "TITLE "
+            + PREFIX_TAG + "MODULE_CODE"
             + PREFIX_DESCRIPTION + "DESCRIPTION "
             + PREFIX_DAY + "DAY "
             + PREFIX_START_TIME + "TIME "
@@ -30,6 +32,7 @@ public class LessonCommand extends Command {
             + PREFIX_END_DATE + "DATE \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_TITLE + "CS2103T Lecture "
+            + PREFIX_TAG + "MODULE_CODE "
             + PREFIX_DESCRIPTION + "Most exciting lecture in NUS! "
             + PREFIX_DAY + "Mon "
             + PREFIX_START_TIME + "12:00 "

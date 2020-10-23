@@ -14,6 +14,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.lesson.Date;
+import seedu.address.model.lesson.Day;
 import seedu.address.model.lesson.Time;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.DateTime;
@@ -121,40 +122,21 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String day} into a {@code DayOfTheWeek}.
+     * Parses a {@code String day} into a {@code Day}.
      * Leading and trailing whitespaces will be trimmed, input is case-insensitive.
      *
      * @throws ParseException if the given {@code day} is invalid.
      */
-    public static DayOfWeek parseDay(String day) throws ParseException {
+    public static Day parseDay(String day) throws ParseException {
         requireNonNull(day);
         String trimmedDay = day.trim();
         String dayOfWeek = trimmedDay.toUpperCase();
-        switch (dayOfWeek) {
-        case "MON":
-        case "MONDAY":
-            return DayOfWeek.MONDAY;
-        case "TUE":
-        case "TUESDAY":
-            return DayOfWeek.TUESDAY;
-        case "WED":
-        case "WEDNESDAY":
-            return DayOfWeek.WEDNESDAY;
-        case "THU":
-        case "THURSDAY":
-            return DayOfWeek.THURSDAY;
-        case "FRI":
-        case "FRIDAY":
-            return DayOfWeek.FRIDAY;
-        case "SAT":
-        case "SATURDAY":
-            return DayOfWeek.SATURDAY;
-        case "SUN":
-        case "SUNDAY":
-            return DayOfWeek.SUNDAY;
-        default:
-            throw new ParseException(DateTime.DAY_MESSAGE_CONSTRAINTS);
+        try {
+            DayOfWeek.valueOf(dayOfWeek);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new ParseException(Day.MESSAGE_CONSTRAINTS);
         }
+        return new Day(dayOfWeek);
     }
     /**
      * Parses a {@code String type} into an {@code Type}.

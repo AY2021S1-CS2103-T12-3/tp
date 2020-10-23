@@ -8,9 +8,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_END_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_END_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.stream.Stream;
@@ -18,9 +18,10 @@ import java.util.stream.Stream;
 import seedu.address.logic.commands.LessonCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.lesson.Date;
+import seedu.address.model.lesson.Day;
 import seedu.address.model.lesson.Lesson;
 import seedu.address.model.lesson.Time;
-import seedu.address.model.task.DateTime;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Description;
 import seedu.address.model.task.Title;
 
@@ -43,13 +44,14 @@ public class LessonCommandParser implements Parser<LessonCommand> {
                 PREFIX_START_TIME, PREFIX_END_TIME) || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, LessonCommand.MESSAGE_USAGE));
         }
-        Description description = Description.defaultDescription();
         Title title = ParserUtil.parseTitle(argMultimap.getValue(PREFIX_TITLE).get());
+        Tag tag = null;
+        Description description = Description.defaultDescription();
         LocalDate startDate = null;
         LocalDate endDate = null;
         LocalTime startTime = null;
         LocalTime endTime = null;
-        DayOfWeek dayOfWeek = null;
+        Day day = null;
 
         if (argMultimap.getValue(PREFIX_START_DATE).isPresent()
                 && argMultimap.getValue(PREFIX_END_DATE).isPresent()) {
@@ -75,12 +77,17 @@ public class LessonCommandParser implements Parser<LessonCommand> {
             description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get());
         }
         if (argMultimap.getValue(PREFIX_DAY).isPresent()) {
-            dayOfWeek = ParserUtil.parseDay(argMultimap.getValue(PREFIX_DAY).get());
+            day = ParserUtil.parseDay(argMultimap.getValue(PREFIX_DAY).get());
         } else {
-            throw new ParseException(DateTime.DAY_MESSAGE_CONSTRAINTS);
+            throw new ParseException(Day.MESSAGE_CONSTRAINTS);
         }
-        requireAllNonNull(startDate, endDate, startTime, endTime, dayOfWeek);
-        Lesson lesson = new Lesson(title, description, dayOfWeek, startTime, endTime, startDate, endDate);
+        if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
+        } else {
+            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+        }
+        requireAllNonNull(tag, startDate, endDate, startTime, endTime, day);
+        Lesson lesson = new Lesson(title, tag, description, day, startTime, endTime, startDate, endDate);
 
         return new LessonCommand(lesson);
     }

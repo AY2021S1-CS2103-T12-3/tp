@@ -2,7 +2,6 @@ package seedu.address.model.lesson;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.DateTime;
 import seedu.address.model.task.Description;
 import seedu.address.model.task.Task;
@@ -21,8 +21,9 @@ import seedu.address.model.task.Type;
  */
 public class Lesson {
     private final Title title;
+    private final Tag tag;
     private final Description description;
-    private final DayOfWeek dayOfWeek;
+    private final Day day;
     private final LocalTime startTime;
     private final LocalTime endTime;
     private final LocalDate startDate;
@@ -31,12 +32,13 @@ public class Lesson {
     /**
      * Every field must be present and not null.
      */
-    public Lesson(Title title, Description description, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime,
+    public Lesson(Title title, Tag tag, Description description, Day day, LocalTime startTime, LocalTime endTime,
                   LocalDate startDate, LocalDate endDate) {
-        requireAllNonNull(title, description, dayOfWeek, startTime, endTime, startDate, endDate);
+        requireAllNonNull(title, description, day, startTime, endTime, startDate, endDate);
         this.title = title;
+        this.tag = tag;
         this.description = description;
-        this.dayOfWeek = dayOfWeek;
+        this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
         this.startDate = startDate;
@@ -46,11 +48,14 @@ public class Lesson {
     public Title getTitle() {
         return title;
     }
+    public Tag getTag() {
+        return tag;
+    }
     public Description getDescription() {
         return description;
     }
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
+    public Day getDay() {
+        return day;
     }
     public LocalTime getStartTime() {
         return startTime;
@@ -70,7 +75,7 @@ public class Lesson {
      */
     public ArrayList<Task> createRecurringTasks() {
         LocalDate currentDate = getStartDate();
-        while (!(currentDate.getDayOfWeek()).equals(this.dayOfWeek)) {
+        while (!(currentDate.getDayOfWeek()).equals(this.day)) {
             currentDate = currentDate.plusDays(1);
         }
         ArrayList<Task> tasksToAdd = new ArrayList<>();
@@ -93,7 +98,7 @@ public class Lesson {
         }
         return otherLesson != null
                 && otherLesson.getTitle().equals(getTitle())
-                && otherLesson.getDayOfWeek().equals(getDayOfWeek())
+                && otherLesson.getDay().equals(getDay())
                 && otherLesson.getStartTime().equals(getStartTime())
                 && otherLesson.getEndTime().equals(getEndTime())
                 && otherLesson.getStartDate().equals(getStartDate())
@@ -103,16 +108,18 @@ public class Lesson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(title, description, dayOfWeek, startTime, endTime, startDate, endDate);
+        return Objects.hash(title, tag, description, day, startTime, endTime, startDate, endDate);
     }
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getTitle())
+                .append("Tag: ")
+                .append(getTag())
                 .append(" Description: ")
                 .append(getDescription())
                 .append(" Day: ")
-                .append(getDayOfWeek())
+                .append(getDay())
                 .append(" Start Time: ")
                 .append(getStartTime())
                 .append(" End Time: ")

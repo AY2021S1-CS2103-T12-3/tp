@@ -41,10 +41,10 @@ public class EditCommand extends Command {
             + "[" + PREFIX_DATE_TIME + "DATE] "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TYPE + "TYPE] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_TAG + "MODULE_CODE]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_DATE_TIME + "02-02-2020 12:00 "
-            + PREFIX_DESCRIPTION + "johndoe,example.com";
+            + PREFIX_DESCRIPTION + "This task is urgent";
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
