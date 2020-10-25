@@ -19,7 +19,7 @@ public class Planus implements ReadOnlyPlanus {
 
     private final UniqueTaskList tasks;
     private final UniqueLessonList lessons;
-    private final Calendar calendarList;
+    private final Calendar calendarTasks;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -31,13 +31,13 @@ public class Planus implements ReadOnlyPlanus {
     {
         tasks = new UniqueTaskList();
         lessons = new UniqueLessonList();
-        calendarList = new Calendar();
+        calendarTasks = new Calendar();
     }
 
     public Planus() {}
 
     /**
-     * Creates an Planus using the Tasks in the {@code toBeCopied}
+     * Creates a PlaNus using the Tasks in the {@code toBeCopied}
      */
     public Planus(ReadOnlyPlanus toBeCopied) {
         this();
@@ -71,7 +71,7 @@ public class Planus implements ReadOnlyPlanus {
     //// task-level operations
 
     /**
-     * Returns true if a task with the same identity as {@code task} exists in the PlaNUS task list.
+     * Returns true if a task with the same identity as {@code task} exists in the PlaNus task list.
      */
     public boolean hasTask(Task task) {
         requireNonNull(task);
@@ -92,6 +92,7 @@ public class Planus implements ReadOnlyPlanus {
      */
     public void addTask(Task task) {
         tasks.add(task);
+        calendarTasks.add(task);
     }
 
     /**
@@ -108,7 +109,7 @@ public class Planus implements ReadOnlyPlanus {
      */
     public void addTaskToCalendar(Task task) {
         if (task.getType().equals("event") || task.getType().equals("lesson")) {
-            calendarList.add(task);
+            calendarTasks.add(task);
         }
     }
 
@@ -179,7 +180,7 @@ public class Planus implements ReadOnlyPlanus {
 
     @Override
     public ObservableList<Task> getCalendarList() {
-        return calendarList.asUnmodifiableObservableList();
+        return calendarTasks.asUnmodifiableObservableList();
     }
 
     @Override
