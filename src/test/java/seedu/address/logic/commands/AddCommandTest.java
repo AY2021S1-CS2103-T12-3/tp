@@ -120,6 +120,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void addTaskToCalendar(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setPlanus(ReadOnlyPlanus newData) {
             throw new AssertionError("This method should not be called.");
         }
@@ -166,6 +171,11 @@ public class AddCommandTest {
 
         @Override
         public ObservableList<Lesson> getFilteredLessonList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Task> getFilteredCalendarList() {
             throw new AssertionError("This method should not be called.");
         }
 

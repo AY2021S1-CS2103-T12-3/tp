@@ -20,4 +20,10 @@ public interface ReadOnlyPlanus {
      * This list will not contain any duplicate lessons.
      */
     ObservableList<Lesson> getLessonList();
+
+    /**
+     * Returns an unmodifiable view of the lesson list.
+     * This list will not contain any duplicate lessons.
+     */
+    ObservableList<Task> getCalendarList();
 }

@@ -24,6 +24,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Task> filteredTasks;
     private final FilteredList<Lesson> filteredLessons;
+    private final FilteredList<Task> filteredCalendar;
 
     /**
      * Initializes a ModelManager with the given planus and userPrefs.
@@ -38,6 +39,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredTasks = new FilteredList<>(this.planus.getTaskList());
         filteredLessons = new FilteredList<>(this.planus.getLessonList());
+        filteredCalendar = new FilteredList<>(this.planus.getCalendarList());
     }
 
     public ModelManager() {
@@ -126,6 +128,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addTaskToCalendar(Task task) {
+        planus.addTaskToCalendar(task);
+    }
+
+    @Override
     public void setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
 
@@ -160,6 +167,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Task> getFilteredCalendarList() {
+        return filteredCalendar;
+    }
+
+    @Override
     public void updateFilteredTaskList(Predicate<Task> predicate) {
         requireNonNull(predicate);
         filteredTasks.setPredicate(predicate);
@@ -188,7 +200,8 @@ public class ModelManager implements Model {
         return planus.equals(other.planus)
                 && userPrefs.equals(other.userPrefs)
                 && filteredTasks.equals(other.filteredTasks)
-                && filteredLessons.equals(other.filteredLessons);
+                && filteredLessons.equals(other.filteredLessons)
+                && filteredCalendar.equals(other.filteredCalendar);
     }
 
 }

@@ -90,6 +90,7 @@ public class PlanusTest {
     private static class PlanusStub implements ReadOnlyPlanus {
         private final ObservableList<Task> tasks = FXCollections.observableArrayList();
         private final ObservableList<Lesson> lessons = FXCollections.observableArrayList();
+        private final ObservableList<Task> calendar = FXCollections.observableArrayList();
 
         PlanusStub(Collection<Task> tasks) {
             this.tasks.setAll(tasks);
@@ -103,6 +104,11 @@ public class PlanusTest {
         @Override
         public ObservableList<Lesson> getLessonList() {
             return lessons;
+        }
+
+        @Override
+        public ObservableList<Task> getCalendarList() {
+            return calendar;
         }
     }
 
