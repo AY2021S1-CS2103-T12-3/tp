@@ -4,24 +4,12 @@
 User Guide v1.3 
 ---
 
-##Introduction - Gabriella Teh
+## Table of Content
 
-PlaNus is a project done under NUS module CS2103T by a group of five aspiring computer science students.
-
-PlaNus is **task managing desktop application** for students in NUS with many projects and deadlines, optimized for use via a Command Line Interface (CLI) with the benefits of Graphical User Interface (GUI). PlaNus reduces the time spent by students in task management as adding tasks and lessons is now simple and quick!
-
-Objectives of PlaNus:
-1. Provide students with a detailed breakdown of how much time they spend on their tasks and lessons in their respective modules.
-2. Allow students to have a organised view of their schedule. (coming soon in v1.3B)
-3. Allocate tasks and lessons to their schedule automatically. (coming soon in v1.4)
-
-##About
-This user guide provides a detailed description of all the features available in the application.
-
-## Quick start
-
+* [Introduction](#introduction)
+* [About](#About)
 * [Features](#features)
-  * [1. Show all commands : `help`](#1-show-all-commands--help) - Gabriella Teh
+  * [1. Show all commands : `help`](#1-show-all-commands--help)
   * [2. List all tasks : `list`](#2-list-all-tasks--list) - Marcus Tan
   * [3. Add a deadline: `deadline`](#3-add-a-deadline--deadline) - Li Gangwei
   * [4. Add an event: `event`](#4-add-an-event--event) - Li Gangwei
@@ -33,6 +21,20 @@ This user guide provides a detailed description of all the features available in
   * [10. Exit the program : `exit`](#10-exit-the-program--exit) - Li Gangwei
 * [FAQ](#faq) - Li Gangwei
 * [Command summary](#command-summary) - Zhou Zijian
+
+## Introduction
+
+PlaNus is a **task managing desktop application** for students in NUS with many projects and deadlines, optimized for use via a Command Line Interface (CLI) with the benefits of Graphical User Interface (GUI). PlaNus reduces the time spent by students in task management as adding tasks and lessons is now simple and quick!
+
+Objectives of PlaNus:
+1. Provide students with a detailed breakdown of how much time they spend on their tasks and lessons in their respective modules.
+2. Allow students to have a calendar view of their schedule. (coming soon in v1.3B)
+3. Allocate tasks and lessons to their schedule automatically. (coming soon in v1.4)
+
+## About
+This user guide provides a detailed description of all the features available in the application.
+
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -46,11 +48,11 @@ This user guide provides a detailed description of all the features available in
 * Words in UPPER_CASE are the parameters to be supplied by the user.<br>
   e.g. in `add title:TITLE`, `TITLE` is a parameter which can be used as `title:homework 1`.
 
-* Items in square brackets are optional input. e.g `desc:DESCRIPTION` <br>
+* Items in square brackets are optional for added description. e.g `desc:DESCRIPTION` <br>
   `[desc:DESCRIPTION]` can be used as `title:homework 1 desc:science project` or just as `title:homework 1`.
 
 * Items with `...` after them can be used multiple times.<br>
-  e.g. `done INDEX:TIME_TAKEN...` can be used as `done 1:20 2:120 3:50`.
+  e.g. `delete INDEX...` can be used as `delete 1 2 3`.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `title:TITLE desc:DESCRIPTION`, `desc:DESCRIPTION title:TITLE` is also acceptable.
