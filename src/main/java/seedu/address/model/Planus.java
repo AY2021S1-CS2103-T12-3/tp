@@ -70,6 +70,7 @@ public class Planus implements ReadOnlyPlanus {
 
         setTasks(newData.getTaskList());
         setLessons(newData.getLessonList());
+        setCalendarTasks(newData.getCalendarList());
     }
 
     //// task-level operations
@@ -83,11 +84,19 @@ public class Planus implements ReadOnlyPlanus {
     }
 
     /**
-     * Returns true if a lesson with the same identity as {@code lesson} exists in the PlaNUS lesson list.
+     * Returns true if a lesson with the same identity as {@code lesson} exists in the PlaNus lesson list.
      */
     public boolean hasLesson(Lesson lesson) {
         requireNonNull(lesson);
         return lessons.contains(lesson);
+    }
+
+    /**
+     * Returns true if a task with the same identity as {@code lesson} exists in the PlaNus calendar list.
+     */
+    public boolean hasCalendarTask(Task task) {
+        requireNonNull(task);
+        return calendarTasks.contains(task);
     }
 
     /**
@@ -164,6 +173,7 @@ public class Planus implements ReadOnlyPlanus {
      */
     public void removeTask(Task key) {
         tasks.remove(key);
+        calendarTasks.remove(key);
     }
 
     /**
@@ -173,6 +183,7 @@ public class Planus implements ReadOnlyPlanus {
     public void removeTask(Task[] targets) {
         requireNonNull(targets);
         tasks.remove(targets);
+        calendarTasks.remove(targets);
     }
 
     //// util methods

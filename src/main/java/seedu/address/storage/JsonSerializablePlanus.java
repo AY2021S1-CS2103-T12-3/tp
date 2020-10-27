@@ -25,6 +25,7 @@ class JsonSerializablePlanus {
 
     private final List<JsonAdaptedTask> tasks = new ArrayList<>();
     private final List<JsonAdaptedLesson> lessons = new ArrayList<>();
+    private final List<JsonAdaptedTask> calendar = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializablePlanus} with the given tasks.
@@ -45,6 +46,7 @@ class JsonSerializablePlanus {
         tasks.addAll(source.getTaskList().stream().filter(task -> !task.getType().equals(lessonType))
                 .map(JsonAdaptedTask::new).collect(Collectors.toList()));
         lessons.addAll(source.getLessonList().stream().map(JsonAdaptedLesson::new).collect(Collectors.toList()));
+        calendar.addAll(source.getCalendarList().stream().map(JsonAdaptedTask::new).collect(Collectors.toList()));
     }
 
     /**
@@ -60,6 +62,9 @@ class JsonSerializablePlanus {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_TASK);
             }
             planus.addTask(task);
+            if (task.getType().equals("event")) {
+                planus.addTaskToCalendar(task);
+            }
         }
 
         for (JsonAdaptedLesson jsonAdaptedLesson : lessons) {
@@ -71,6 +76,7 @@ class JsonSerializablePlanus {
                     throw new IllegalValueException(MESSAGE_DUPLICATE_TASK);
                 }
                 planus.addTask(task);
+                planus.addTaskToCalendar(task);
             }
             planus.addLesson(lesson);
         }

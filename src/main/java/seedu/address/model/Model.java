@@ -15,6 +15,7 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Task> PREDICATE_SHOW_ALL_TASKS = unused -> true;
     Predicate<Lesson> PREDICATE_SHOW_ALL_LESSONS = unused -> true;
+    Predicate<Task> PREDICATE_SHOW_ALL_CALENDAR_TASKS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -63,6 +64,11 @@ public interface Model {
      * Returns true if a lesson with the same identity as {@code lesson} exists in PlaNus.
      */
     boolean hasLesson(Lesson lesson);
+
+    /**
+     * Returns true if a task with the same identity as {@code lesson} exists in PlaNus.
+     */
+    boolean hasCalendarTask(Task task);
 
     /**
      * Deletes the given task.
@@ -135,4 +141,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredLessonList(Predicate<Lesson> predicate);
+
+    /**
+     * Updates the filter of the filtered calendar list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredCalendar(Predicate<Task> predicate);
 }
