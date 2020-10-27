@@ -9,17 +9,16 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalTasks.ALICE;
 import static seedu.address.testutil.TypicalTasks.BOB;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.task.Task;
-import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
 import seedu.address.testutil.TaskBuilder;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class CalendarTest {
 
@@ -151,7 +150,6 @@ public class CalendarTest {
 
     @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, ()
-                -> calendarList.asUnmodifiableObservableList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> calendarList.asUnmodifiableObservableList().remove(0));
     }
 }
