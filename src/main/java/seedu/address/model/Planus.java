@@ -92,7 +92,6 @@ public class Planus implements ReadOnlyPlanus {
      */
     public void addTask(Task task) {
         tasks.add(task);
-        calendarTasks.add(task);
     }
 
     /**

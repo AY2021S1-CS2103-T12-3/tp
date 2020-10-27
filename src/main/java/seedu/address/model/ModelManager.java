@@ -130,6 +130,7 @@ public class ModelManager implements Model {
     @Override
     public void addTaskToCalendar(Task task) {
         planus.addTaskToCalendar(task);
+        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
     }
 
     @Override
@@ -182,6 +183,8 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredLessons.setPredicate(predicate);
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

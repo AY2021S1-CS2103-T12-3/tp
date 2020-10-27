@@ -51,7 +51,9 @@ public class AddCommand extends Command {
         }
 
         model.addTask(toAdd);
-        model.addTaskToCalendar(toAdd);
+        if (toAdd.getType().equals("event")) {
+            model.addTaskToCalendar(toAdd);
+        }
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 
