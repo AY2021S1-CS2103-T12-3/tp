@@ -165,6 +165,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void setCalendarTasks(Task target, Task editedTask) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Task> getFilteredTaskList() {
             throw new AssertionError("This method should not be called.");
         }

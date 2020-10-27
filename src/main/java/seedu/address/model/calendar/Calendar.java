@@ -4,9 +4,11 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.lesson.exceptions.DuplicateLessonException;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
@@ -85,6 +87,19 @@ public class Calendar implements Iterable<Task> {
     }
 
     /**
+     * Replaces the contents of this list with {@code lessons}.
+     * {@code lessons} must not contain duplicate lessons.
+     */
+    public void setCalendarList(List<Task> tasks) {
+        requireAllNonNull(tasks);
+        if (!tasksAreUnique(tasks)) {
+            throw new DuplicateLessonException();
+        }
+
+        calendarList.setAll(tasks);
+    }
+
+    /**
      * Replaces the task in the list with {@code tasks} done version.
      * {@code tasks} must not contain duplicate tasks.
      * each task in tasks must exist in the list.
@@ -125,4 +140,17 @@ public class Calendar implements Iterable<Task> {
         return calendarList.hashCode();
     }
 
+    /**
+     * Returns true if {@code tasks} contains only unique tasks.
+     */
+    private boolean tasksAreUnique(List<Task> tasks) {
+        for (int i = 0; i < tasks.size() - 1; i++) {
+            for (int j = i + 1; j < tasks.size(); j++) {
+                if (tasks.get(i).isSameTask(tasks.get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

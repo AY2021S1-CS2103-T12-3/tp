@@ -108,6 +108,13 @@ public interface Model {
      */
     void setLesson(Lesson target, Lesson editedLesson);
 
+    /**
+     * Replaces the given task {@code target} with {@code editedTask}.
+     * {@code target} must exist in PlaNus.
+     * The task identity of {@code editedTask} must not be the same as another existing task in the calendar list.
+     */
+    void setCalendarTasks(Task target, Task editedTask);
+
     /** Returns an unmodifiable view of the filtered task list */
     ObservableList<Task> getFilteredTaskList();
 

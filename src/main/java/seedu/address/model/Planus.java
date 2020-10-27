@@ -58,6 +58,10 @@ public class Planus implements ReadOnlyPlanus {
         this.lessons.setLessons(lessons);
     }
 
+    public void setCalendarTasks(List<Task> tasks) {
+        this.calendarTasks.setCalendarList(tasks);
+    }
+
     /**
      * Resets the existing data of this {@code Planus} with {@code newData}.
      */
@@ -107,9 +111,7 @@ public class Planus implements ReadOnlyPlanus {
      * The task must not already exist in the PlaNus calendar list.
      */
     public void addTaskToCalendar(Task task) {
-        if (task.getType().equals("event") || task.getType().equals("lesson")) {
-            calendarTasks.add(task);
-        }
+        calendarTasks.add(task);
     }
 
     /**
@@ -132,6 +134,20 @@ public class Planus implements ReadOnlyPlanus {
 
         lessons.setLesson(target, editedLesson);
     }
+
+
+    /**
+     * Replaces the given task {@code target} in the list with {@code editedTask}.
+     * {@code target} must exist in the PlaNus calendar list.
+     * The task identity of {@code editedTask} must not be the same as another existing task in the calendar list.
+     */
+    public void setCalendarTask(Task target, Task editedTask) {
+        requireNonNull(editedTask);
+
+        calendarTasks.setTask(target, editedTask);
+    }
+
+
 
     /**
      * Mark the given tasks {@code targets} in the list as done.

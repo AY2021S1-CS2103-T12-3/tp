@@ -12,9 +12,14 @@ import static seedu.address.testutil.TypicalTasks.BOB;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.task.Task;
+import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
 import seedu.address.testutil.TaskBuilder;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CalendarTest {
 
@@ -72,7 +77,6 @@ public class CalendarTest {
 
     @Test
     public void setTask_editedTaskIsSameTask_success() {
-        //wrong
         calendarList.add(ALICE);
         calendarList.setTask(ALICE, ALICE);
         Calendar expectedCalendarList = new Calendar();
@@ -82,7 +86,6 @@ public class CalendarTest {
 
     @Test
     public void setTask_editedTaskHasSameIdentity_success() {
-        //wrong
         calendarList.add(ALICE);
         Task editedAlice = new TaskBuilder(ALICE).withType(VALID_TYPE_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
@@ -94,7 +97,6 @@ public class CalendarTest {
 
     @Test
     public void setTask_editedTaskHasDifferentIdentity_success() {
-        //wrong
         calendarList.add(ALICE);
         calendarList.setTask(ALICE, BOB);
         Calendar expectedCalendarList = new Calendar();
@@ -130,5 +132,26 @@ public class CalendarTest {
         calendarList.remove(ALICE);
         Calendar expectedCalendarList = new Calendar();
         assertEquals(expectedCalendarList, calendarList);
+    }
+
+    @Test
+    public void setTask_nullList_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> calendarList.setCalendarList((List<Task>) null));
+    }
+
+    @Test
+    public void setTask_list_replacesOwnListWithProvidedList() {
+        calendarList.add(ALICE);
+        List<Task> taskList = Collections.singletonList(BOB);
+        calendarList.setCalendarList(taskList);
+        Calendar expectedCalendarList = new Calendar();
+        expectedCalendarList.add(BOB);
+        assertEquals(expectedCalendarList, calendarList);
+    }
+
+    @Test
+    public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, ()
+                -> calendarList.asUnmodifiableObservableList().remove(0));
     }
 }

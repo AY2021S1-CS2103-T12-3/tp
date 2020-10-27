@@ -147,6 +147,12 @@ public class ModelManager implements Model {
         planus.setLesson(target, editedLesson);
     }
 
+    @Override
+    public void setCalendarTasks(Task target, Task editedTask) {
+        requireAllNonNull(target, editedTask);
+        planus.setCalendarTask(target, editedTask);
+    }
+
     //=========== Filtered Task List Accessors =============================================================
 
     /**
