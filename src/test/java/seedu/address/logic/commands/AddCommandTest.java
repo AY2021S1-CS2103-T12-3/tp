@@ -145,6 +145,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasCalendarTask(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void deleteTask(Task[] targets) {
             throw new AssertionError("This method should not be called.");
         }

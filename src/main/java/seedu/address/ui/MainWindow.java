@@ -121,10 +121,6 @@ public class MainWindow extends UiPart<Stage> {
         lessonListPanel = new LessonListPanel(logic.getFilteredLessonList());
         lessonListPanelPlaceholder.getChildren().add(lessonListPanel.getRoot());
 
-        System.out.println(logic.getFilteredCalendarList().size());
-        System.out.println(logic.getFilteredTaskList().size());
-        System.out.println(logic.getFilteredLessonList().size());
-
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 

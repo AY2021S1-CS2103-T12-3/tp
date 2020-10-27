@@ -153,7 +153,7 @@ public class Planus implements ReadOnlyPlanus {
     public void setCalendarTask(Task target, Task editedTask) {
         requireNonNull(editedTask);
 
-        calendarTasks.setTask(target, editedTask);
+        calendarTasks.setCalendarTask(target, editedTask);
     }
 
 
@@ -173,7 +173,6 @@ public class Planus implements ReadOnlyPlanus {
      */
     public void removeTask(Task key) {
         tasks.remove(key);
-        calendarTasks.remove(key);
     }
 
     /**
@@ -183,7 +182,6 @@ public class Planus implements ReadOnlyPlanus {
     public void removeTask(Task[] targets) {
         requireNonNull(targets);
         tasks.remove(targets);
-        calendarTasks.remove(targets);
     }
 
     //// util methods

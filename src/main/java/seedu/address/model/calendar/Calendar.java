@@ -45,7 +45,7 @@ public class Calendar implements Iterable<Task> {
      * {@code target} must exist in the list.
      * The task identity of {@code editedTask} must not be the same as another existing task in the list.
      */
-    public void setTask(Task target, Task editedTask) {
+    public void setCalendarTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
 
         int index = calendarList.indexOf(target);

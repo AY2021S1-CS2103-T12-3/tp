@@ -37,6 +37,7 @@ public class EditCommandTest {
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
         Task editedTask = new TaskBuilder().build();
+        System.out.println(editedTask.toString());
         EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder(editedTask).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_TASK, descriptor);
 
@@ -44,7 +45,7 @@ public class EditCommandTest {
 
         Model expectedModel = new ModelManager(new Planus(model.getPlanus()), new UserPrefs());
         expectedModel.setTask(model.getFilteredTaskList().get(0), editedTask);
-
+        System.out.println(model.getFilteredTaskList().get(0));
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 

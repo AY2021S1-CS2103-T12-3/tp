@@ -61,23 +61,23 @@ public class CalendarTest {
 
     @Test
     public void setTask_nullTargetTask_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> calendarList.setTask(null, ALICE));
+        assertThrows(NullPointerException.class, () -> calendarList.setCalendarTask(null, ALICE));
     }
 
     @Test
     public void setTask_nullEditedTask_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> calendarList.setTask(ALICE, null));
+        assertThrows(NullPointerException.class, () -> calendarList.setCalendarTask(ALICE, null));
     }
 
     @Test
     public void setTask_targetTaskNotInList_throwsTaskNotFoundException() {
-        assertThrows(TaskNotFoundException.class, () -> calendarList.setTask(ALICE, ALICE));
+        assertThrows(TaskNotFoundException.class, () -> calendarList.setCalendarTask(ALICE, ALICE));
     }
 
     @Test
     public void setTask_editedTaskIsSameTask_success() {
         calendarList.add(ALICE);
-        calendarList.setTask(ALICE, ALICE);
+        calendarList.setCalendarTask(ALICE, ALICE);
         Calendar expectedCalendarList = new Calendar();
         expectedCalendarList.add(ALICE);
         assertEquals(expectedCalendarList, calendarList);
@@ -88,7 +88,7 @@ public class CalendarTest {
         calendarList.add(ALICE);
         Task editedAlice = new TaskBuilder(ALICE).withType(VALID_TYPE_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
-        calendarList.setTask(ALICE, editedAlice);
+        calendarList.setCalendarTask(ALICE, editedAlice);
         Calendar expectedCalendarList = new Calendar();
         expectedCalendarList.add(editedAlice);
         assertEquals(expectedCalendarList, calendarList);
@@ -97,7 +97,7 @@ public class CalendarTest {
     @Test
     public void setTask_editedTaskHasDifferentIdentity_success() {
         calendarList.add(ALICE);
-        calendarList.setTask(ALICE, BOB);
+        calendarList.setCalendarTask(ALICE, BOB);
         Calendar expectedCalendarList = new Calendar();
         expectedCalendarList.add(BOB);
         assertEquals(expectedCalendarList, calendarList);
@@ -107,7 +107,7 @@ public class CalendarTest {
     public void setTask_editedTaskHasNonUniqueIdentity_throwsDuplicateTaskException() {
         calendarList.add(ALICE);
         calendarList.add(BOB);
-        assertThrows(DuplicateTaskException.class, () -> calendarList.setTask(ALICE, BOB));
+        assertThrows(DuplicateTaskException.class, () -> calendarList.setCalendarTask(ALICE, BOB));
     }
 
     @Test
