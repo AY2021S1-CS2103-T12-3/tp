@@ -71,6 +71,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public ObservableList<Task> getFilteredCalendarList() {
+        return model.getFilteredCalendarList();
+    }
+
+    @Override
     public Path getPlanusFilePath() {
         return model.getPlanusFilePath();
     }

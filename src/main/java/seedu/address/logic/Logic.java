@@ -37,6 +37,9 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of lessons */
     ObservableList<Lesson> getFilteredLessonList();
 
+    /** Returns an unmodifiable view of the filtered calendar */
+    ObservableList<Task> getFilteredCalendarList();
+
     /**
      * Returns the user prefs' PlaNus file path.
      */
