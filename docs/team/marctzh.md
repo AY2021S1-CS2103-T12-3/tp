@@ -47,7 +47,7 @@ Given below are my contributions to the project.
   * User Guide:
     * (To be updated)
   * Developer Guide:
-    * (To be updated)
+    *  [\#275](https://github.com/AY2021S1-CS2103T-T12-3/tp/pull/275),
 
 * **Community**:
 
