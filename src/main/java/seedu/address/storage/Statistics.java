@@ -15,7 +15,6 @@ import seedu.address.model.lesson.Lesson;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 
-
 /**
  * This class handles all computation related to time spent on tasks and lessons.
  */

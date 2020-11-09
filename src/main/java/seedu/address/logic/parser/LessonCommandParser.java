@@ -56,31 +56,21 @@ public class LessonCommandParser implements Parser<LessonCommand> {
 
         assert argMultimap.getValue(PREFIX_TITLE).isPresent() : "prefix title is missing";
         assert argMultimap.getValue(PREFIX_TAG).isPresent() : "prefix tag is missing";
+        assert argMultimap.getValue(PREFIX_START_DATE).isPresent() : "prefix start is missing";
+        assert argMultimap.getValue(PREFIX_END_DATE).isPresent() : "prefix end is missing";
+        assert argMultimap.getValue(PREFIX_START_TIME).isPresent() : "prefix from is missing";
+        assert argMultimap.getValue(PREFIX_END_TIME).isPresent() : "prefix to is missing";
+        assert argMultimap.getValue(PREFIX_DAY).isPresent() : "prefix day is missing";
         Title title = ParserUtil.parseTitle(argMultimap.getValue(PREFIX_TITLE).get());
         Tag tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
-        LocalDate startDate;
-        LocalDate endDate;
-        LocalTime startTime;
-        LocalTime endTime;
-        DayOfWeek dayOfWeek;
-
-        if (argMultimap.getValue(PREFIX_START_DATE).isPresent()
-                && argMultimap.getValue(PREFIX_END_DATE).isPresent()) {
-            startDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_START_DATE).get());
-            endDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_END_DATE).get());
-        } else {
-            throw new ParseException(DateTimeUtil.DATE_TIME_CONSTRAINTS);
-        }
+        LocalDate startDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_START_DATE).get());
+        LocalDate endDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_END_DATE).get());
+        LocalTime startTime = ParserUtil.parseTime(argMultimap.getValue(PREFIX_START_TIME).get());
+        LocalTime endTime = ParserUtil.parseTime(argMultimap.getValue(PREFIX_END_TIME).get());
+        DayOfWeek dayOfWeek = ParserUtil.parseDay(argMultimap.getValue(PREFIX_DAY).get());
 
         if (!isStartDateBeforeEndDate(startDate, endDate)) {
             throw new ParseException(DateTimeUtil.RANGE_CONSTRAINTS);
-        }
-        if (argMultimap.getValue(PREFIX_START_TIME).isPresent()
-                && argMultimap.getValue(PREFIX_END_TIME).isPresent()) {
-            startTime = ParserUtil.parseTime(argMultimap.getValue(PREFIX_START_TIME).get());
-            endTime = ParserUtil.parseTime(argMultimap.getValue(PREFIX_END_TIME).get());
-        } else {
-            throw new ParseException(DateTimeUtil.TIME_CONSTRAINTS);
         }
         if (!isStartTimeBeforeEndTime(startTime, endTime)) {
             throw new ParseException(Time.RANGE_CONSTRAINTS);
@@ -88,12 +78,8 @@ public class LessonCommandParser implements Parser<LessonCommand> {
         if (argMultimap.getValue(PREFIX_DESCRIPTION).isPresent()) {
             description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get());
         }
-        if (argMultimap.getValue(PREFIX_DAY).isPresent()) {
-            dayOfWeek = ParserUtil.parseDay(argMultimap.getValue(PREFIX_DAY).get());
-        } else {
-            throw new ParseException(DateTimeUtil.DAY_MESSAGE_CONSTRAINTS);
-        }
         requireAllNonNull(startDate, endDate, startTime, endTime, dayOfWeek);
+
         Lesson lesson = new Lesson(title, tag, description, dayOfWeek, startTime, endTime, startDate, endDate);
         return new LessonCommand(lesson);
     }

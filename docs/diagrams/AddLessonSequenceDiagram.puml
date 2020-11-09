@@ -1,0 +1,31 @@
+@startuml
+autoactivate on
+!include ./style.puml
+
+Participant ":LessonCommand" as lc LOGIC_COLOR
+Participant ":Model" as model LOGIC_COLOR
+Participant ":Planus" as planus LOGIC_COLOR
+Participant ":Lesson" as lesson LOGIC_COLOR
+Participant ":Task" as task LOGIC_COLOR
+
+[-> lc: execute(model)
+lc -> model: addLesson(lesson)
+model -> planus: addLesson(lesson)
+planus -> lesson: createRecurringTasks()
+loop all time slots for lesson events
+create task
+lesson -> task
+task --> lesson
+end
+lesson --> planus: recurringTasks
+loop all tasks created
+planus -> planus: addTask(task)
+return
+planus -> planus: addTaskToCalendar(task)
+return
+end
+return
+model -> model: updateFilteredLessonList(...)
+return
+
+@enduml

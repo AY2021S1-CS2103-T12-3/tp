@@ -3,20 +3,20 @@
 skinparam ClassFontColor #000000
 skinparam ClassBorderColor #000000
 
-title After command "delete-task 5"
+title Initial state
 
-package States <<rectangle>> {
-    class State1 as "__planus0:Planus__"
-    class State2 as "__planus1:Planus__"
-    class State3 as "__planus2:Planus__"
+package States {
+    class State1 as "__d0:Deadline__" {
+        status:
+    }
+    class State2 as "__planus1:Deadline__"
+    class State3 as "__planus2:Dealine__"
 }
-
 State1 -[hidden]right-> State2
 State2 -[hidden]right-> State3
-
+hide State2
 hide State3
 
 class Pointer as "Current State" #FFFFF
-
-Pointer -up-> State2
+Pointer -up-> State1
 @end

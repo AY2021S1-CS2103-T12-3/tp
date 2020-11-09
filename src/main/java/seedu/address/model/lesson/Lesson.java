@@ -86,7 +86,7 @@ public class Lesson implements TimeSlot {
         return (int) Duration.between(startTime, endTime).toMinutes();
     }
     /**
-     * Creates recurring event tasks based on the lesson's details.
+     * Creates recurring a list of event tasks based on the lesson's details.
      * @return a list of recurring tasks to add.
      */
     public ArrayList<Task> createRecurringTasks() {

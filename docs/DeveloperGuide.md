@@ -143,42 +143,158 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Adding a lesson
+
+#### Implementation
+
+Adds a lesson to PlaNus via `Lesson` and`LessonCommand`.
+
+A `Lesson`,
+* Contains the following attributes:
+    - `dayOfTheWeek`
+    - `startTime`
+    - `endTime`
+    - `startDate`
+    - `endDate`
+* Stores its information in planus.json.
+
+To create a new lesson, PlaNus executes the following steps:
+
+Step 1. After user creates a new lesson by entering the relevant command, the parser parsed the fields and pass the fields to
+`LessonCommand`.
+
+Step 2. `LessonCommand` creates a `Lesson` object and calls `Model#addLesson` which will pass the new lesson to `Planus`
+to add to PlaNus. `Planus` then calls `lesson#createRecurringTasks` to create all lesson events associated with the new lesson.
+
+Step 3. The created tasks are then added to the `Planus#UniqueTaskList` via the `Planus#addTask` method. Together with the tasks, the calendar is also
+updated and the new calendar tasks are added to `Planus#Clendar` via the `Planus#addTaskToCalendar` method. Lastly, the newly added lesson is added to
+`Planus#UniqueLessonList` which finishes the state update. 
+
+The following sequence diagram describes what happens when user adds a new `lesson`:
+
+![AddLessonSequenceDiagram](images/AddLessonSequenceDiagram.png)
+
+The tasks created using `lesson#createRecurringTasks` are marked as `isLesson` and will not be displayed in the task list.
+This is achieved by filtering all tasks with `task#isLesson` set to `true`. The following code snippet is from `Model` class
+and shows how the task list is filtered:
+
+```$xslt
+Predicate<Task> PREDICATE_SHOW_ALL_TASKS = task -> !(task instanceof Event && task.isLesson());
+```
+
+#### Design consideration:
+
+##### Aspect: How to store lessons in PlaNus
+
+* **Alternative 1 (current choice):** Save lesson information in a lesson json object.
+  * Pros: Saves space as lessons that occur over a long period of time are not stored as many events that contain similar attributes.
+  * Cons: PlaNus will be slower on start up as lessons have to be turned into events and added to PlaNus.
+
+* **Alternative 2:** Save lessons as multiple recurring events.
+  * Pros: PlaNus will be faster on start up as lessons are already stored as events.
+  * Cons: Uses more space by storing more json objects.
+
+### Data analysis feature
+
+#### Implementation
+
+The data analysis feature is facilitated by `Statistics` and `StatisticsData`. 
+
+![StatsClassDiagram](images/StatsClassDiagram.png)
+
+The time taken to complete each task is stored internally in planus.json when the `DoneCommand` is executed.
+The `Statistics` class facilitates updating `StatisticsData` from `ObservableList` in UI.
+
+`Statistics` implements the following operations:
+
+* `Statistics#generateStatistics(startDate, endDate)` — Computes total duration of time spent on all tasks and lessons for the specified time period and stores it in a data structure.
+
+  <br>
+
+The `StatisticsData` class contains the methods to store and retrieve information from the custom data structure. The custom data structure comprises of a HashMap where the **`tag` containing the module code** is the **key** and the **value** is a size two integer array with the **total time spent on `task`** being stored in the first index and the **total time spent on `lesson`** in the second index.
+
+`StatisticsData` implements the following operations to read and update data stored in this custom data structure:
+
+* `StatisticsData#addTag(tag)` — Stores the module tag in the data structure.
+
+* `StatisticsData#addTaskTime(tag, value)` — Adds the time taken for tasks with the specified module tag.
+
+* `StatisticsData#addLessonTime(tag, value)` — Adds the time taken for lessons with the specified module tag.
+
+* `StatisticsData#getTotalTime(tag)` — Retrieves total time spent on both lessons and tasks associated with module tag from data structure.
+
+  <br>
+
+The following sequence diagram describes how statistics data is updated when user enters a command.
+
+
+![StatsDataSequenceDiagram](images/StatsDataSequenceDiagram.png)
+
+When `StatisticsData` retrieves time of each task, it needs to distinguish between a `event` and a `deadline`. For an `event`,
+`StatisticsData` calculates the time between its start time and end time and add to the total time, while for a `deadline`,
+`StatisticsData` calculates the time used to complete it if it has been completed or skip it if it has not been completed. 
+The following activity diagram illustrates the steps:
+
+![TimeAnalysisActivityDiagram](images/TimeAnalysisActivityDiagram.png)
+
+#### Design consideration:
+
+##### Aspect: How to track time spent on each task or lesson
+
+* **Alternative 1 (current choice)**: Allow user to input how much time he has spent on each deadline  with the `done` command and automatically calculating the time spent on each `event`/`lesson` by assuming the user has spent the amount of time between the start and end time of the `event`/`lesson`.
+
+
+The user enters the command `done index:duration` where `index` refers to the inedx of the deadline to be marked as done and `duration` refers to the time used to complete the deadline.
+
+  * Pros: 
+    * User does not have to key in as many commands as he inputs the time spent on each task when he completed the task. 
+    * User does not have to worry about time spent on all `event` and `lesson`.
+  * Cons: 
+    * User must manually keep track of the time spent on the deadline.
+    * User is not able to indicate actual time spent on `event` and `lesson`.
+
+* **Alternative 2:** Use a `start` and `stop` command to indicate when the user is spending time on a `deadline`/`event`/`lesson`, automatically recording the time spent.
+  * Pros: User will be able to more accurately track time spent on each `task`/`lesson`.
+  * Cons: Keying in multiple `start` and `stop` commands may be tedious for the user.
+
+
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo mechanism is facilitated by `VersionedPlanus`. It extends `Planus` with an undo/redo history, stored internally as an `planusStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+* `VersionedPlanus#commit()` — Saves the current PlaNus state in its history.
+* `VersionedPlanus#undo()` — Restores the previous PlaNus state from its history.
+* `VersionedPlanus#redo()` — Restores a previously undone PlaNus state from its history.
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+These operations are exposed in the `Model` interface as `Model#commitPlanus()`, `Model#undoPlanus()` and `Model#redoPlanus()` respectively.
 
 Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+Step 1. The user launches the application for the first time. The `VersionedPlanus` will be initialized with the initial PlaNus state, and the `currentStatePointer` pointing to that single PlaNus state.
 
 ![UndoRedoState0](images/UndoRedoState0.png)
 
-Step 2. The user executes `delete 5` command to delete the 5th task in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Step 2. The user executes `delete-task 5` command to delete the 5th task in Planus. The `delete-task` command calls `Model#commitPlanus()`, causing the modified state of the PlaNus after the `delete-task 5` command executes to be saved in the `planusStateList`, and the `currentStatePointer` is shifted to the newly inserted PlaNus state.
 
 ![UndoRedoState1](images/UndoRedoState1.png)
 
-Step 3. The user executes `add n/David …` to add a new task. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+Step 3. The user executes `event title:project …` to add a new event. The `event` command also calls `Model#commitPlanus()`, causing another modified PlaNus state to be saved into the `planusStateList`.
 
 ![UndoRedoState2](images/UndoRedoState2.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitPlanus()`, so the PlaNus state will not be saved into the `planusStateList`.
 
 
 </div>
 
-Step 4. The user now decides that adding the task was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the event was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoPlanus()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous PlaNus state, and restores the PlaNus to that state.
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial Planus state, then there are no previous Planus states to restore. The `undo` command uses `Model#canUndoPlanus()` to check if this is the case. If so, it will return an error to the user rather
 than attempting to perform the undo.
 
 
@@ -193,18 +309,18 @@ The following sequence diagram shows how the undo operation works:
 
 </div>
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+The `redo` command does the opposite — it calls `Model#redoPlanus()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the PlaNus to that state.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `planusStateList.size() - 1`, pointing to the latest PlaNus state, then there are no undone Planus states to restore. The `redo` command uses `Model#canRedoPlanus()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
 
 
 </div>
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+Step 5. The user then decides to execute the command `list-lesson`. Commands that do not modify the PlaNus, such as `list-lesson`, will usually not call `Model#commitPlanus()`, `Model#undoPlanus()` or `Model#redoPlanus()`. Thus, the `planusStateList` remains unchanged.
 
 ![UndoRedoState4](images/UndoRedoState4.png)
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …` command. This is the behavior that most modern desktop applications follow.
+Step 6. The user executes `clear`, which calls `Model#commitPlanus()`. Since the `currentStatePointer` is not pointing at the end of the `planusStateList`, all PlaNus states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `event title:project …` command. This is the behavior that most modern desktop applications follow.
 
 ![UndoRedoState5](images/UndoRedoState5.png)
 
@@ -216,13 +332,13 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 ##### Aspect: How undo & redo executes
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+* **Alternative 1 (current choice):** Saves the entire PlaNus.
   * Pros: Easy to implement.
   * Cons: May have performance issues in terms of memory usage.
 
 * **Alternative 2:** Individual command knows how to undo/redo by
   itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the task being deleted).
+  * Pros: Will use less memory (e.g. for `delete-task`, just save the task being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
@@ -424,7 +540,7 @@ overlap with any other lesson or event in PlaNus.
 
 **MSS**
 
-1. User <ins>lists a set of tasks (UC03 or UC05)</ins>
+1. User <ins>lists a set of tasks (UC03)</ins>
 
 2. User requests to find tasks with specified search phrase(s) in specified attribute(s).
 
@@ -461,7 +577,7 @@ does not overlap with any other lesson or event in PlaNus.
 
 **MSS**
 
-1. User <ins>lists a set of tasks (UC03 or UC05)</ins>
+1. User <ins>lists a set of tasks (UC03)</ins>
 
 2. User requests to edit values of specified attribute(s) of a task.
 
@@ -488,7 +604,7 @@ does not overlap with any other lesson or event in PlaNus.
 
 **MSS**
 
-1. User <ins>lists a set of tasks (UC03 or UC05)</ins>
+1. User <ins>lists a set of tasks (UC03)</ins>
 
 2. User requests to delete certain tasks from the list.
 
@@ -542,11 +658,29 @@ overlap with any other lesson or event in PlaNus.
 
 <br>
 
-**Use case: UC09 - Find lessons**
+**Use case: UC09 - List all lessons**
 
 **MSS**
 
-1. User <ins>lists a set of lessons (UC08 or UC09)</ins>
+1. User requests to list all lessons.
+
+2. PlaNus shows a list of all lessons.
+
+  Use case ends.
+
+**Extensions**
+
+  - 2a. The list is empty.
+
+    Use case ends.
+
+<br>
+
+**Use case: UC10 - Find lessons**
+
+**MSS**
+
+1. User <ins>lists a set of lessons (UC09)</ins>
 
 2. User requests to find lessons with specified search phrase(s) in specified attribute(s).
 
@@ -574,7 +708,7 @@ overlap with any other lesson or event in PlaNus.
 
 <br>
 
-**Use case: UC10 - Edit a lesson**
+**Use case: UC11 - Edit a lesson**
 
 **Guarantees**
 
@@ -583,7 +717,7 @@ does not overlap with any other lesson or event in PlaNus.
 
 **MSS**
 
-1. User <ins>lists a set of lessons (UC08 or UC09)</ins>
+1. User <ins>lists a set of lessons (UC09)</ins>
 
 2. User requests to edit values of specified attribute(s) of a lesson.
 
@@ -606,11 +740,11 @@ does not overlap with any other lesson or event in PlaNus.
 
 <br>
 
-**Use case: UC11 - Delete lessons**
+**Use case: UC12 - Delete lessons**
 
 **MSS**
 
-1. User <ins>lists a set of lessons (UC08 or UC09)</ins>
+1. User <ins>lists a set of lessons (UC09)</ins>
 
 2. User requests to delete certain lessons from the list.
 
@@ -632,7 +766,7 @@ does not overlap with any other lesson or event in PlaNus.
 
 <br>
 
-**Use case: UC12 - Request help**
+**Use case: UC13 - Request help**
 
 **MSS**
 
@@ -644,7 +778,7 @@ does not overlap with any other lesson or event in PlaNus.
 
 <br>
 
-**Use case: UC13 - Exit application**
+**Use case: UC14 - Exit application**
 
 **MSS**
 

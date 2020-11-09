@@ -26,17 +26,19 @@ public class StatisticsData {
         this.stats = new HashMap<>();
     }
     /**
-     * Stores the module tag inside data structure.
+     * Stores the module tag inside the data structure.
      */
     public void addTag(Tag tag) {
         requireNonNull(tag);
         logger.info("New tag added to StatisticsData object");
         Integer[] defaultValue = new Integer[]{0, 0};
-        stats.put(tag, defaultValue);
+        if (!stats.containsKey(tag)) {
+            stats.put(tag, defaultValue);
+        }
     }
 
     /**
-     * Adds the time taken for tasks for the specified module tag.
+     * Adds the time taken for tasks with the specified module tag.
      */
     public void addTaskTime(Tag tag, int value) {
         requireNonNull(tag);
@@ -47,7 +49,7 @@ public class StatisticsData {
         }
     }
     /**
-     * Adds the time taken for lessons for the specified module tag.
+     * Adds the time taken for lessons with the specified module tag.
      */
     public void addLessonTime(Tag tag, int value) {
         requireNonNull(tag);
