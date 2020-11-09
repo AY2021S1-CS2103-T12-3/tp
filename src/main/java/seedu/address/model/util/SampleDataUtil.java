@@ -54,17 +54,17 @@ public class SampleDataUtil {
             new Lesson(new Title("Tutorial"), new Tag("CS1101S"),
                     new Description("I love functional programming!"), DayOfWeek.MONDAY,
                     LocalTime.parse("12:00", TIME_FORMATTER), LocalTime.parse("14:00", TIME_FORMATTER),
-                    LocalDate.parse("01-11-2020", DATE_FORMATTER),
+                    LocalDate.parse("01-08-2020", DATE_FORMATTER),
                     LocalDate.parse("01-12-2020", DATE_FORMATTER)),
             new Lesson(new Title("Lab"), new Tag("CS2100"), new Description("Logic Gates!"),
                     DayOfWeek.THURSDAY, LocalTime.parse("16:00", TIME_FORMATTER),
                     LocalTime.parse("17:00", TIME_FORMATTER),
-                    LocalDate.parse("01-11-2020", DATE_FORMATTER),
+                    LocalDate.parse("01-08-2020", DATE_FORMATTER),
                     LocalDate.parse("01-12-2020", DATE_FORMATTER)),
             new Lesson(new Title("Lecture"), new Tag("CS2105"),
                     new Description("Protocols"), DayOfWeek.MONDAY,
                     LocalTime.parse("14:00", TIME_FORMATTER), LocalTime.parse("16:00", TIME_FORMATTER),
-                    LocalDate.parse("01-11-2020", DATE_FORMATTER),
+                    LocalDate.parse("01-08-2020", DATE_FORMATTER),
                     LocalDate.parse("01-12-2020", DATE_FORMATTER))
         };
     }
